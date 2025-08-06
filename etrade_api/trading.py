@@ -14,6 +14,18 @@ class Trading:
         self.api_connection = api_connection
         self.base_url = "https://api.etrade.com/v1" # Base URL for E*Trade API
 
+    def _make_api_call(self, endpoint, params=None):
+        """Helper to make authenticated GET requests to the E*Trade API."""
+        try:
+            session = self.api_connection.get_session()
+            url = f"{self.base_url}/{endpoint}"
+            response = session.get(url, params=params)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logger.error(f"E*Trade API Trading GET Error for {endpoint}: {e}")
+            return None
+
     def _make_api_post_call(self, endpoint, payload):
         """
         Helper method to make authenticated POST requests to the E*Trade API.
