@@ -102,8 +102,7 @@ The model will be downloaded automatically by the `transformers` library the fir
     ```bash
     pip install -r requirements.txt
     ```
-
-    **Note for `llama-cpp-python`**: Depending on your system and whether you want GPU acceleration, you might need to follow specific installation instructions from the `llama-cpp-python` GitHub repository for your OS and CUDA/ROCm setup.
+    The core requirements do **not** include `llama-cpp-python` due to its platform-specific build needs. If you intend to use the `llama.cpp` backend, install `llama-cpp-python` separately after setting up the necessary C/C++ build tools (e.g., Visual Studio Build Tools on Windows or `build-essential` on Linux). Pre-built wheels are available from the project's documentation.
 
 ## Usage
 
@@ -111,3 +110,5 @@ To start the application, run `main.py` from the root directory after activating
 
 ```bash
 python main.py
+```
+
