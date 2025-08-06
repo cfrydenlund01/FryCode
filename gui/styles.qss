@@ -1,0 +1,119 @@
+/* General Styles */
+QMainWindow {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* QLabels */
+QLabel {
+    color: #333333;
+}
+
+QLabel#title { /* Example: specific label ID */
+    font-size: 20px;
+    font-weight: bold;
+    color: #0056b3;
+}
+
+/* QPushButtons */
+QPushButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+QPushButton:hover {
+    background-color: #0056b3;
+}
+
+QPushButton:pressed {
+    background-color: #004085;
+}
+
+QPushButton:disabled {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+/* QLineEdit & QTextEdit & QComboBox */
+QLineEdit, QTextEdit, QComboBox {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: white;
+}
+
+QComboBox::drop-down {
+    border: 0px; /* No border for the arrow button */
+}
+
+QComboBox::down-arrow {
+    image: url(arrow_down.png); /* Placeholder if you have custom arrows */
+    width: 12px;
+    height: 12px;
+}
+
+/* QTableWidget */
+QTableWidget {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    gridline-color: #e9ecef;
+    selection-background-color: #e0f2f7;
+    selection-color: #333333;
+}
+
+QTableWidget::item {
+    padding: 5px;
+}
+
+QHeaderView::section {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 5px;
+    border: 1px solid #dee2e6;
+    font-weight: bold;
+}
+
+/* QTabWidget */
+QTabWidget::pane { /* The tab widget frame */
+    border-top: 2px solid #007bff;
+    background: #ffffff;
+}
+
+QTabWidget::tab-bar {
+    left: 5px; /* move to the right by 5px */
+}
+
+QTabBar::tab {
+    background: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-bottom-color: #ced4da; /* same as pane color */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 8ex;
+    padding: 5px 10px;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background: #ffffff;
+    border-color: #007bff;
+    border-bottom-color: #ffffff; /* make the bottom line of the selected tab invisible */
+}
+
+QTabBar::tab:hover {
+    background-color: #f8f9fa;
+}
+
+/* Specific elements within the app */
+#log_display { /* assuming log_display is the objectName of the QTextEdit */
+    background-color: #272c34;
+    color: #e0e0e0;
+    font-family: "Consolas", "Monospace";
+    font-size: 12px;
+    border-radius: 5px;
+    padding: 10px;
+}

@@ -1,0 +1,9 @@
+PyQt6
+requests_oauthlib
+requests
+transformers
+torch # or tensorflow, depending on Mistral 7B implementation
+llama-cpp-python # if using llama.cpp
+pandas
+numpy
+python-dotenv # for environment variables
