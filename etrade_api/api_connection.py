@@ -5,6 +5,7 @@ import subprocess
 import json
 import webbrowser
 import logging
+import sys
 from requests_oauthlib import OAuth1Session
 from utils.logging import get_logger
 
@@ -41,45 +42,57 @@ class ETradeAPIConnection:
         self._load_tokens() # Attempt to load previously saved tokens
 
     def _get_secret(self, secret_name: str) -> str:
+        """Retrieve a secret value.
+
+        On Windows, this attempts to pull the secret from the PowerShell
+        SecretManagement vault. If retrieval fails or on non-Windows systems,
+        the method falls back to environment variables using a conventional
+        upper-case name (e.g. ``ETrade-ConsumerKey`` -> ``ETRADE_CONSUMER_KEY``).
         """
-        Retrieves a secret from the PowerShell SecretManagement vault.
-        This requires the vault to be unlocked for the current user.
-        
-        Args:
-            secret_name (str): The name of the secret to retrieve.
-        
-        Returns:
-            str: The secret value as a plain string.
-                 Returns None if retrieval fails.
-        """
+        # Fallback to environment variables first (works cross-platform)
+        env_name = secret_name.replace("-", "_").upper()
+        env_val = os.getenv(env_name)
+        if env_val:
+            return env_val
+
+        # Only attempt PowerShell retrieval on Windows
+        if not sys.platform.startswith("win"):
+            logger.warning(
+                "PowerShell secret retrieval is only supported on Windows. "
+                f"Environment variable '{env_name}' not set."
+            )
+            return None
+
         try:
-            # Construct a PowerShell command to get the secret as a plain string.
-            # Using -AsPlainText is crucial for this to work.
             ps_command = f"""
-            $secret = Get-Secret -Name "{secret_name}" -AsPlainText
+            $secret = Get-Secret -Name \"{secret_name}\" -AsPlainText
             Write-Host $secret
             """
-            
-            # Use subprocess to run the PowerShell command and capture its output.
-            # `check=True` will raise a `CalledProcessError` if the command fails.
+
             result = subprocess.run(
                 ["powershell.exe", "-Command", ps_command],
                 capture_output=True,
                 text=True,
                 check=True,
-                shell=False
+                shell=False,
             )
-            
+
             secret = result.stdout.strip()
             if not secret:
-                logger.warning(f"PowerShell returned an empty string for secret '{secret_name}'.")
+                logger.warning(
+                    f"PowerShell returned an empty string for secret '{secret_name}'."
+                )
             return secret
         except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to retrieve secret '{secret_name}' from PowerShell.")
+            logger.error(
+                f"Failed to retrieve secret '{secret_name}' from PowerShell."
+            )
             logger.error(f"PowerShell Error Output: {e.stderr}")
             return None
         except Exception as e:
-            logger.error(f"An unexpected error occurred while retrieving secret '{secret_name}': {e}")
+            logger.error(
+                f"An unexpected error occurred while retrieving secret '{secret_name}': {e}"
+            )
             return None
 
     def _load_tokens(self):
