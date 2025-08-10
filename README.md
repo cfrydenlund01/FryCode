@@ -2,6 +2,28 @@
 
 This application is a Python-based GUI tool for Windows that integrates a locally deployed Mistral 7B Instruct AI model with the E*Trade API. It's designed to monitor and analyze the U.S. stock market, providing structured investment recommendations based on a user-defined strategy, with a strong emphasis on risk management and explicit user confirmation for all trades.
 
+## Quick Start
+
+### Windows (PowerShell)
+
+```powershell
+git clone https://github.com/cfrydenlund01/FryCode.git
+cd FryCode
+scripts/bootstrap.ps1
+scripts/run_gui.ps1  # launch the GUI
+```
+
+### Linux/macOS (bash)
+
+```bash
+git clone https://github.com/cfrydenlund01/FryCode.git
+cd FryCode
+./scripts/bootstrap.sh
+./scripts/run_gui.sh  # launch the GUI
+```
+
+The bootstrap script creates `.venv`, installs dependencies, and copies `.env.example` to `.env` if missing. Edit `.env` to add your E*Trade keys and optional model settings.
+
 ## Table of Contents
 
 - [Features](#features)

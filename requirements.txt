@@ -1,10 +1,23 @@
 PyQt6
 requests_oauthlib
 requests
-transformers
-torch  # or tensorflow, depending on Mistral 7B implementation
-# llama-cpp-python  # optional: install separately if using llama.cpp (requires C++ build tools)
 pandas
 numpy
-python-dotenv  # for environment variables
+python-dotenv
+pydantic
+loguru
+rich
+# AI backends
+transformers
+# torch is intentionally not pinned; install a matching wheel separately
+# llama-cpp-python  # optional: install separately if using llama.cpp (requires C++ build tools)
+
+# Dev tools
+pytest
+pytest-cov
+pytest-mock
+black
+ruff
+mypy
+pre-commit
 
