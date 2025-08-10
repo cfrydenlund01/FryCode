@@ -4,7 +4,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip wheel setuptools
 pip install -r requirements.txt
-if [ ! -f .env ]; then
-  cp .env.example .env
+if [ ! -f .env.example ]; then
+  touch .env.example
 fi
 pre-commit install

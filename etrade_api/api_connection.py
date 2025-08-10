@@ -1,10 +1,14 @@
 # etrade_api/api_connection.py
 
-import os
-import json
 import webbrowser
+from datetime import datetime, timezone
 from typing import Optional
+
 from requests_oauthlib import OAuth1Session
+
+from etrade_api.exceptions import ETradeCredentialsMissing
+from etrade_api.token_manager import TokenManager
+from utils import credentials
 from utils.logging import get_logger
 
 logger = get_logger(__name__)
@@ -16,54 +20,40 @@ class ETradeAPIConnection:
     """
 
     def __init__(self):
-        self.consumer_key = os.getenv("ETRADE_CONSUMER_KEY")
-        self.consumer_secret = os.getenv("ETRADE_CONSUMER_SECRET")
-        self.account_id: Optional[str] = os.getenv("ETRADE_ACCOUNT_ID")
+        self.consumer_key, self.consumer_secret = credentials.get_consumer_credentials()
+        self.account_id: Optional[str] = None
 
         self.oauth = None
         self.access_token = None
         self.access_token_secret = None
-        self.token_file = "user_data/etrade_tokens.json"
+        self.token_manager = TokenManager()
 
         if not self.consumer_key or not self.consumer_secret:
-            raise ValueError(
-                "E*TRADE credentials not set. Define ETRADE_CONSUMER_KEY and ETRADE_CONSUMER_SECRET in the environment."
+            raise ETradeCredentialsMissing(
+                "E*TRADE credentials not available in Windows Credential Manager."
             )
 
-        self._load_tokens()  # Attempt to load previously saved tokens
+        self._load_tokens()
 
     def _load_tokens(self):
-        """
-        Loads access tokens from a local file if they exist.
-        """
-        if os.path.exists(self.token_file):
-            try:
-                with open(self.token_file, "r") as f:
-                    tokens = json.load(f)
-                    self.access_token = tokens.get("access_token")
-                    self.access_token_secret = tokens.get("access_token_secret")
-                    self.account_id = tokens.get("account_id")
-                    logger.info("E*Trade access tokens loaded from file.")
-            except Exception as e:
-                logger.error(f"Error loading E*Trade tokens from file: {e}")
-                self.access_token = None
-                self.access_token_secret = None
-                self.account_id = None
+        """Loads access tokens from the credential store if they exist."""
+        token, secret, _issued = credentials.get_access_token()
+        if token and secret:
+            self.access_token = token
+            self.access_token_secret = secret
+            logger.info("E*Trade access tokens loaded from credential store.")
         else:
             logger.info("No saved E*Trade access tokens found.")
 
     def _save_tokens(self):
-        """
-        Saves access tokens and account ID to a local file.
-        """
-        tokens = {
-            "access_token": self.access_token,
-            "access_token_secret": self.access_token_secret,
-            "account_id": self.account_id,
-        }
-        with open(self.token_file, "w") as f:
-            json.dump(tokens, f, indent=4)
-        logger.info("E*Trade access tokens saved to file.")
+        """Saves access tokens to the credential store."""
+        if self.access_token and self.access_token_secret:
+            credentials.set_access_token(
+                self.access_token,
+                self.access_token_secret,
+                datetime.now(timezone.utc).isoformat(),
+            )
+            logger.info("E*Trade access tokens saved to credential store.")
 
     def get_access_token(self):
         """
@@ -71,7 +61,6 @@ class ETradeAPIConnection:
         If tokens are already loaded, it verifies them.
         """
         if self.access_token and self.access_token_secret:
-            # Create a session with the saved tokens
             self.oauth = OAuth1Session(
                 self.consumer_key,
                 client_secret=self.consumer_secret,
@@ -79,8 +68,6 @@ class ETradeAPIConnection:
                 resource_owner_secret=self.access_token_secret,
             )
             logger.info("Using existing E*Trade access token.")
-            # For a more robust check, we could make a light API call here
-            # to ensure the token is still valid.
             return True
 
         return self._perform_oauth_flow()
@@ -199,4 +186,11 @@ class ETradeAPIConnection:
             )
             if not self.get_access_token():
                 raise Exception("E*Trade API not authenticated.")
+        else:
+            try:
+                self.token_manager.ensure_active()
+            except ETradeCredentialsMissing:
+                logger.warning("E*Trade token expired. Re-authenticating.")
+                if not self.get_access_token():
+                    raise
         return self.oauth

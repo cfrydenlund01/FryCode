@@ -10,7 +10,3 @@ extend-ignore = ["E203"]
 [tool.mypy]
 python_version = "3.11"
 ignore_missing_imports = true
-
-[tool.pytest.ini_options]
-addopts = "-q"
-testpaths = ["tests"]

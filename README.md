@@ -11,6 +11,7 @@ git clone https://github.com/cfrydenlund01/FryCode.git
 cd FryCode
 scripts/bootstrap.ps1
 scripts/run_gui.ps1  # launch the GUI
+scripts/run_tests.ps1  # run tests
 ```
 
 ### Linux/macOS (bash)
@@ -20,9 +21,12 @@ git clone https://github.com/cfrydenlund01/FryCode.git
 cd FryCode
 ./scripts/bootstrap.sh
 ./scripts/run_gui.sh  # launch the GUI
+./scripts/run_tests.sh  # run tests
 ```
 
-The bootstrap script creates `.venv`, installs dependencies, and copies `.env.example` to `.env` if missing. Edit `.env` to add your E*Trade keys and optional model settings.
+The bootstrap script creates `.venv`, installs dependencies, and ensures a `.env.example` exists for optional non-secret settings. E*TRADE consumer credentials are entered via the GUI and stored securely in the Windows Credential Manager using `keyring`.
+
+By default the AI model uses the `transformers` backend. Set the `BACKEND` environment variable to `llama` to use `llama.cpp`. For CUDA acceleration, install a matching PyTorch wheel or build `llama-cpp-python` with `--config-settings=cmake.args=-DGGML_CUDA=on`.
 
 ## Table of Contents
 
@@ -66,13 +70,13 @@ The bootstrap script creates `.venv`, installs dependencies, and copies `.env.ex
 1.  **Create an E*Trade Developer Account**: Go to the E*Trade Developer website and sign up for a developer account.
 2.  **Create a New Application**: Register a new application to obtain your Consumer Key and Consumer Secret.
 3.  **Configure Callback URL**: For OAuth 1.0a, you'll need a callback URL. For a desktop application, you might use `oob` (out-of-band) or set up a local redirect URL (e.g., `http://localhost:8080`).
-4.  **Environment Variables**: Create a `.env` file in the root directory (`mistral_etrade_gui/`) and add your E*Trade API credentials:
+4.  **Provide Credentials in the App**: Run the GUI and enter your Consumer Key and Secret when prompted. They are saved only in the Windows Credential Manager via `keyring` and never written to files or environment variables.
 
-    ```
-    ETRADE_CONSUMER_KEY=your_consumer_key
-    ETRADE_CONSUMER_SECRET=your_consumer_secret
-    ETRADE_ACCOUNT_ID=your_account_id # Optional, for specific account access
-    ```
+To clear stored credentials if needed:
+
+```bash
+python -c "from utils.credentials import clear_all_credentials; clear_all_credentials()"
+```
 
 ### Mistral 7B Model Download
 
