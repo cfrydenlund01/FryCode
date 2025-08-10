@@ -1,5 +1,5 @@
 PyQt6
-requests_oauthlib
+requests-oauthlib>=2.0
 requests
 pandas
 numpy
@@ -7,8 +7,11 @@ python-dotenv
 pydantic
 loguru
 rich
+keyring>=25.2
+tzdata>=2024.1
 # AI backends
 transformers
+accelerate
 # torch is intentionally not pinned; install a matching wheel separately
 # llama-cpp-python  # optional: install separately if using llama.cpp (requires C++ build tools)
 

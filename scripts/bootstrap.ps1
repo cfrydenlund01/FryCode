@@ -9,5 +9,5 @@ if ($GPU) {
   Write-Host "For PyTorch + CUDA: install a matching torch wheel from pytorch.org/get-started/locally/"
   Write-Host "For llama-cpp with CUDA: pip install llama-cpp-python --upgrade --force-reinstall --no-cache-dir --config-settings=cmake.args=-DGGML_CUDA=on"
 }
-if (!(Test-Path ".env")) { Copy-Item ".env.example" ".env" }
+if (!(Test-Path ".env.example")) { New-Item ".env.example" -ItemType File | Out-Null }
 pre-commit install

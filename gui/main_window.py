@@ -1,8 +1,26 @@
-from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton, QTextEdit, QTabWidget, QLineEdit, QTableWidget, QTableWidgetItem, QHeaderView
+from PyQt6.QtWidgets import (
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QComboBox,
+    QPushButton,
+    QTextEdit,
+    QTabWidget,
+    QLineEdit,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
+    QDialog,
+)
 from PyQt6.QtCore import Qt, QTimer
 from etrade_api.api_connection import ETradeAPIConnection
 from etrade_api.market_data import MarketData
 from etrade_api.trading import Trading
+from etrade_api.exceptions import ETradeCredentialsMissing
+from gui.credentials_dialog import CredentialsDialog
+from utils import credentials as cred
 from ai.mistral_agent import MistralAgent
 from simulation.simulator import Simulator
 from user_data.user_config import UserConfig
@@ -28,7 +46,16 @@ class MainWindow(QMainWindow):
         self.setGeometry(100, 100, 1200, 800)
 
         # Initialize core components
-        self.api_connection = ETradeAPIConnection()
+        try:
+            self.api_connection = ETradeAPIConnection()
+        except ETradeCredentialsMissing:
+            dlg = CredentialsDialog(self)
+            if dlg.exec() == QDialog.DialogCode.Accepted:
+                key, secret = dlg.get_credentials()
+                cred.set_consumer_credentials(key, secret)
+                self.api_connection = ETradeAPIConnection()
+            else:
+                raise
         self.market_data = MarketData(self.api_connection)
         self.trading = Trading(self.api_connection)
         self.mistral_agent = MistralAgent()

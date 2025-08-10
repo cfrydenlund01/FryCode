@@ -1,5 +1,9 @@
+"""Helpers to pick AI backend and device."""
+
 from __future__ import annotations
+
 import os
+from typing import Any, Dict
 
 
 def pick_backend() -> str:
@@ -7,7 +11,7 @@ def pick_backend() -> str:
     return b if b in {"transformers", "llama"} else "transformers"
 
 
-def pick_device() -> dict:
+def pick_device() -> Dict[str, Any]:
     backend = pick_backend()
     if backend == "transformers":
         try:

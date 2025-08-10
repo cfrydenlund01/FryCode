@@ -1,33 +1,29 @@
 import pytest
+import pytest
+
 from etrade_api.api_connection import ETradeAPIConnection
+from etrade_api.exceptions import ETradeCredentialsMissing
+from utils import credentials
 
 
-def test_missing_creds(monkeypatch):
-    monkeypatch.delenv("ETRADE_CONSUMER_KEY", raising=False)
-    monkeypatch.delenv("ETRADE_CONSUMER_SECRET", raising=False)
-    with pytest.raises(ValueError):
+def test_missing_creds(fake_keyring):
+    with pytest.raises(ETradeCredentialsMissing):
         ETradeAPIConnection()
 
 
-def test_init_with_env(monkeypatch):
-    monkeypatch.setenv("ETRADE_CONSUMER_KEY", "key")
-    monkeypatch.setenv("ETRADE_CONSUMER_SECRET", "secret")
-    monkeypatch.setenv("ETRADE_ACCOUNT_ID", "123")
+def test_init_with_creds(fake_keyring):
+    credentials.set_consumer_credentials("key", "secret")
     conn = ETradeAPIConnection()
     assert conn.consumer_key == "key"
-    assert conn.account_id == "123"
 
 
-def test_get_access_token_uses_existing(monkeypatch):
-    monkeypatch.setenv("ETRADE_CONSUMER_KEY", "key")
-    monkeypatch.setenv("ETRADE_CONSUMER_SECRET", "secret")
+def test_get_access_token_uses_existing(monkeypatch, fake_keyring):
+    credentials.set_consumer_credentials("key", "secret")
+    credentials.set_access_token("tok", "sec", "2024-01-01T00:00:00+00:00")
     conn = ETradeAPIConnection()
-    conn.access_token = "tok"
-    conn.access_token_secret = "sec"
 
-    def fake_session(*_a, **_k):
-        return "session"
-
-    monkeypatch.setattr("etrade_api.api_connection.OAuth1Session", fake_session)
+    monkeypatch.setattr(
+        "etrade_api.api_connection.OAuth1Session", lambda *a, **k: "session"
+    )
     assert conn.get_access_token() is True
     assert conn.oauth == "session"
