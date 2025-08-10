@@ -33,6 +33,11 @@ class Portfolio:
         logger.info("portfolio.json not found. Starting with an empty portfolio.")
         return {}
 
+    def load_portfolio(self) -> None:
+        """Reload portfolio holdings from the JSON file."""
+        self._holdings = self._load_portfolio_from_file()
+        logger.info("Portfolio reloaded from file.")
+
     def save_portfolio(self):
         """
         Saves the current portfolio holdings to the JSON file.
