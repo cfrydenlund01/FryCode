@@ -2,7 +2,7 @@ import json
 from user_data.portfolio import Portfolio
 
 
-def test_load_portfolio_reloads(tmp_path):
+def test_load_portfolio_reloads(tmp_path, caplog):
     tmp_file = tmp_path / "portfolio.json"
     initial = {"AAPL": {"quantity": 1, "costBasis": 100}}
     updated = {"AAPL": {"quantity": 2, "costBasis": 200}}
@@ -12,12 +12,16 @@ def test_load_portfolio_reloads(tmp_path):
 
     p = Portfolio()
     p.portfolio_file = str(tmp_file)
-    p.load_portfolio()
+    with caplog.at_level("INFO"):
+        p.load_portfolio()
     assert p.get_holdings() == initial
+    assert "Portfolio reloaded from file." in caplog.text
 
     with open(tmp_file, "w") as f:
         json.dump(updated, f)
 
-    p.load_portfolio()
+    caplog.clear()
+    with caplog.at_level("INFO"):
+        p.load_portfolio()
     assert p.get_holdings() == updated
-
+    assert "Portfolio reloaded from file." in caplog.text
