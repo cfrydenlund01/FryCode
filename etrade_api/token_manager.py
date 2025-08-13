@@ -43,4 +43,3 @@ class TokenManager:
             credentials.set_access_token(token, token_secret, now.isoformat())
         self.last_used = now
         return token, token_secret
-

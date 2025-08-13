@@ -77,9 +77,10 @@ class ETradeAPIConnection:
         Executes the full OAuth 1.0a authentication flow, including opening a browser
         for user authorization.
         """
-        request_token_url = "https://api.etrade.com/oauth/request_token"
+        # Using sandbox URLs for development as per standard practice
+        request_token_url = "https://apisb.etrade.com/oauth/request_token"
         authorize_url = "https://us.etrade.com/oauth/authorize"
-        access_token_url = "https://api.etrade.com/oauth/access_token"
+        access_token_url = "https://apisb.etrade.com/oauth/access_token"
 
         # Step 1: Get a Request Token
         self.oauth = OAuth1Session(
@@ -145,7 +146,7 @@ class ETradeAPIConnection:
 
         try:
             # E*Trade has a dedicated endpoint for listing accounts
-            accounts_url = "https://api.etrade.com/v1/accounts/list.json"
+            accounts_url = "https://apisb.etrade.com/v1/accounts/list.json"
             response = self.oauth.get(accounts_url)
             response.raise_for_status()
             accounts_data = response.json()
@@ -185,7 +186,7 @@ class ETradeAPIConnection:
                 "E*Trade API not authenticated. Attempting to re-authenticate."
             )
             if not self.get_access_token():
-                raise Exception("E*Trade API not authenticated.")
+                raise
         else:
             try:
                 self.token_manager.ensure_active()
