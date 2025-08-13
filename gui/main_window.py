@@ -422,48 +422,103 @@ class MainWindow(QMainWindow):
         self._update_portfolio_display()
 
     def _update_portfolio_display(self):
+        """Refreshes the portfolio table for either authenticated or simulated data."""
         if not self.api_connection or not self.api_connection.is_authenticated():
-            logger.warning("E*Trade API not authenticated. Displaying simulated portfolio.")
+            logger.warning(
+                "E*Trade API not authenticated. Displaying simulated portfolio."
+            )
             current_holdings = self.portfolio.get_holdings()
-            self.total_portfolio_value_label.setText("Total Portfolio Value (Simulated): $0.00")
-        else:
-            current_holdings = {}
-            if self.current_mode == "Test":
-                current_holdings = self.portfolio.get_holdings()
-                logger.debug("Updating portfolio display from simulated holdings.")
-            elif self.current_mode == "Live":
-                try:
-                    live_portfolio = self.trading.get_portfolio(self.api_connection.account_id)
-                    current_holdings = {item['symbol']: {'quantity': item['quantity'], 'costBasis': item.get('costBasis', 0)}
-                                        for item in live_portfolio}
-                    logger.debug("Updating portfolio display from LIVE E*Trade holdings.")
-                except Exception as e:
-                    logger.error(f"Error fetching live portfolio from E*Trade: {e}")
-                    self._show_error_dialog("Portfolio Error", "Could not fetch live portfolio from E*Trade.")
-        
-            total_value = 0
+
             self.portfolio_table.setRowCount(0)
+            total_value = 0
             for ticker, data in current_holdings.items():
                 row_position = self.portfolio_table.rowCount()
                 self.portfolio_table.insertRow(row_position)
-                quantity = data.get('quantity', 0)
-                avg_cost = data.get('costBasis', 0)
-                current_price = "N/A"
-                unrealized_pl = "N/A"
-                quote_data = self.market_data.get_quote(ticker)
-                if quote_data and quote_data.get('lastPrice'):
-                    current_price = quote_data['lastPrice']
-                    if quantity > 0 and isinstance(current_price, (int, float)) and isinstance(avg_cost, (int, float)):
-                        unrealized_pl = (current_price - avg_cost) * quantity
-                        total_value += current_price * quantity
-                else:
-                    logger.warning(f"Could not get current price for {ticker} to update portfolio P/L.")
+                quantity = data.get("quantity", 0)
+                avg_cost = data.get("costBasis", 0)
                 self.portfolio_table.setItem(row_position, 0, QTableWidgetItem(ticker))
                 self.portfolio_table.setItem(row_position, 1, QTableWidgetItem(str(quantity)))
                 self.portfolio_table.setItem(row_position, 2, QTableWidgetItem(f"${avg_cost:.2f}"))
-                self.portfolio_table.setItem(row_position, 3, QTableWidgetItem(f"${current_price:.2f}" if isinstance(current_price, (int, float)) else str(current_price)))
-                self.portfolio_table.setItem(row_position, 4, QTableWidgetItem(f"${unrealized_pl:.2f}" if isinstance(unrealized_pl, (int, float)) else str(unrealized_pl)))
-            self.total_portfolio_value_label.setText(f"Total Portfolio Value: ${total_value:.2f}")
+                self.portfolio_table.setItem(row_position, 3, QTableWidgetItem("N/A"))
+                self.portfolio_table.setItem(row_position, 4, QTableWidgetItem("N/A"))
+                if isinstance(avg_cost, (int, float)):
+                    total_value += avg_cost * quantity
+
+            self.total_portfolio_value_label.setText(
+                f"Total Portfolio Value (Simulated): ${total_value:.2f}"
+            )
+            return
+
+        current_holdings = {}
+        if self.current_mode == "Test":
+            current_holdings = self.portfolio.get_holdings()
+            logger.debug("Updating portfolio display from simulated holdings.")
+        elif self.current_mode == "Live":
+            try:
+                live_portfolio = self.trading.get_portfolio(
+                    self.api_connection.account_id
+                )
+                current_holdings = {
+                    item["symbol"]: {
+                        "quantity": item["quantity"],
+                        "costBasis": item.get("costBasis", 0),
+                    }
+                    for item in live_portfolio
+                }
+                logger.debug(
+                    "Updating portfolio display from LIVE E*Trade holdings."
+                )
+            except Exception as e:
+                logger.error(f"Error fetching live portfolio from E*Trade: {e}")
+                self._show_error_dialog(
+                    "Portfolio Error", "Could not fetch live portfolio from E*Trade."
+                )
+
+        total_value = 0
+        self.portfolio_table.setRowCount(0)
+        for ticker, data in current_holdings.items():
+            row_position = self.portfolio_table.rowCount()
+            self.portfolio_table.insertRow(row_position)
+            quantity = data.get("quantity", 0)
+            avg_cost = data.get("costBasis", 0)
+            current_price = "N/A"
+            unrealized_pl = "N/A"
+            quote_data = self.market_data.get_quote(ticker)
+            if quote_data and quote_data.get("lastPrice"):
+                current_price = quote_data["lastPrice"]
+                if (
+                    quantity > 0
+                    and isinstance(current_price, (int, float))
+                    and isinstance(avg_cost, (int, float))
+                ):
+                    unrealized_pl = (current_price - avg_cost) * quantity
+                    total_value += current_price * quantity
+            else:
+                logger.warning(
+                    f"Could not get current price for {ticker} to update portfolio P/L."
+                )
+            self.portfolio_table.setItem(row_position, 0, QTableWidgetItem(ticker))
+            self.portfolio_table.setItem(row_position, 1, QTableWidgetItem(str(quantity)))
+            self.portfolio_table.setItem(
+                row_position, 2, QTableWidgetItem(f"${avg_cost:.2f}")
+            )
+            self.portfolio_table.setItem(
+                row_position,
+                3,
+                QTableWidgetItem(
+                    f"${current_price:.2f}" if isinstance(current_price, (int, float)) else str(current_price)
+                ),
+            )
+            self.portfolio_table.setItem(
+                row_position,
+                4,
+                QTableWidgetItem(
+                    f"${unrealized_pl:.2f}" if isinstance(unrealized_pl, (int, float)) else str(unrealized_pl)
+                ),
+            )
+        self.total_portfolio_value_label.setText(
+            f"Total Portfolio Value: ${total_value:.2f}"
+        )
 
     def _show_confirmation_dialog(self, title, message):
         reply = QMessageBox.question(self, title, message, QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)

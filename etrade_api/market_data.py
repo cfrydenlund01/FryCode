@@ -12,7 +12,8 @@ class MarketData:
         Initializes MarketData with an ETradeAPIConnection instance.
         """
         self.api_connection = api_connection
-        self.base_url = "https://api.etrade.com/v1" # Base URL for E*Trade API
+        # Use the E*Trade sandbox environment by default
+        self.base_url = "https://apisb.etrade.com/v1"
 
     def _make_api_call(self, endpoint, params=None):
         """
@@ -133,7 +134,7 @@ class MarketData:
             dict: A dictionary containing news headlines and implied sentiment.
                   Returns an empty dictionary if data cannot be fetched.
         """
-        # E*Trade API has a news endpoint: https://api.etrade.com/v1/market/news.json
+        # E*Trade API has a news endpoint: https://apisb.etrade.com/v1/market/news.json
         endpoint = "market/news.json"
         params = {"symbols": symbol} # Filter news by symbol
         data = self._make_api_call(endpoint, params)
