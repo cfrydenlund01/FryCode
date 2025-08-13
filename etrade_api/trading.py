@@ -12,7 +12,8 @@ class Trading:
         Initializes Trading with an ETradeAPIConnection instance.
         """
         self.api_connection = api_connection
-        self.base_url = "https://api.etrade.com/v1" # Base URL for E*Trade API
+        # Use the E*Trade sandbox environment by default
+        self.base_url = "https://apisb.etrade.com/v1"
 
     def _make_api_call(self, endpoint, params=None):
         """Helper to make authenticated GET requests to the E*Trade API."""

@@ -79,7 +79,7 @@ class ETradeAPIConnection:
         """
         # Using sandbox URLs for development as per standard practice
         request_token_url = "https://apisb.etrade.com/oauth/request_token"
-        authorize_url = "https://us.etrade.com/oauth/authorize"
+        authorize_url = "https://apisb.etrade.com/oauth/authorize"
         access_token_url = "https://apisb.etrade.com/oauth/access_token"
 
         # Step 1: Get a Request Token
