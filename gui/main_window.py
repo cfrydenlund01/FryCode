@@ -6,7 +6,6 @@ from PyQt6.QtWidgets import (
     QLabel,
     QComboBox,
     QPushButton,
-    QTextEdit,
     QTabWidget,
     QLineEdit,
     QTableWidget,
@@ -26,8 +25,6 @@ from simulation.simulator import Simulator
 from user_data.user_config import UserConfig
 from user_data.portfolio import Portfolio
 from utils.logging import get_logger
-from gui.qt_text_edit_handler import QtTextEditHandler
-import logging
 
 logger = get_logger(__name__)
 
@@ -117,12 +114,10 @@ class MainWindow(QMainWindow):
         self._setup_ticker_panel()
         self._setup_recommendations_panel()
         self._setup_portfolio_panel()
-        self._setup_logging_panel()
 
         self.tab_widget.addTab(self.ticker_panel_widget, "Real-time Ticker")
         self.tab_widget.addTab(self.recommendations_panel_widget, "Recommendations")
         self.tab_widget.addTab(self.portfolio_panel_widget, "Portfolio")
-        self.tab_widget.addTab(self.logging_panel_widget, "Logs")
 
         right_panel.addWidget(self.tab_widget)
         main_layout.addLayout(right_panel, 4)
@@ -200,21 +195,6 @@ class MainWindow(QMainWindow):
 
         self.total_portfolio_value_label = QLabel("Total Portfolio Value: $0.00")
         layout.addWidget(self.total_portfolio_value_label)
-
-    def _setup_logging_panel(self):
-        self.logging_panel_widget = QWidget()
-        layout = QVBoxLayout(self.logging_panel_widget)
-        layout.addWidget(QLabel("<h2>Application Logs</h2>"))
-
-        self.log_display = QTextEdit()
-        self.log_display.setReadOnly(True)
-        layout.addWidget(self.log_display)
-
-        self.log_handler = QtTextEditHandler(self.log_display)
-        self.log_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-        self.log_handler.setFormatter(formatter)
-        logging.getLogger().addHandler(self.log_handler)
 
     def _save_credentials(self):
         key = self.key_input.text().strip()
