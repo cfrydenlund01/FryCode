@@ -13,6 +13,7 @@ from PyQt6.QtWidgets import (
     QTableWidgetItem,
     QHeaderView,
     QMessageBox,
+    QInputDialog,
 )
 from PyQt6.QtCore import Qt, QTimer
 from etrade_api.api_connection import ETradeAPIConnection
@@ -25,9 +26,11 @@ from simulation.simulator import Simulator
 from user_data.user_config import UserConfig
 from user_data.portfolio import Portfolio
 from utils.logging import get_logger
+from gui.qt_text_edit_handler import QtTextEditHandler
 import logging
 
 logger = get_logger(__name__)
+
 
 class MainWindow(QMainWindow):
     """
@@ -35,6 +38,7 @@ class MainWindow(QMainWindow):
     Manages all GUI components, user interactions, and orchestrates
     communication between different application modules (API, AI, Simulation).
     """
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Mistral E*Trade Stock Assistant")
@@ -145,9 +149,13 @@ class MainWindow(QMainWindow):
 
         self.ticker_table = QTableWidget()
         self.ticker_table.setColumnCount(4)
-        self.ticker_table.setHorizontalHeaderLabels(["Ticker", "Last Price", "Change (%)", "Volume"])
+        self.ticker_table.setHorizontalHeaderLabels(
+            ["Ticker", "Last Price", "Change (%)", "Volume"]
+        )
         self.ticker_table.horizontalHeader().setStretchLastSection(True)
-        self.ticker_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.ticker_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
         layout.addWidget(self.ticker_table)
 
         self.tracked_tickers = []
@@ -159,11 +167,20 @@ class MainWindow(QMainWindow):
 
         self.recommendations_table = QTableWidget()
         self.recommendations_table.setColumnCount(7)
-        self.recommendations_table.setHorizontalHeaderLabels([
-            "Ticker", "Confidence (%)", "Risk Level", "Suggested Action",
-            "Time Horizon", "Reasoning", "Execute"
-        ])
-        self.recommendations_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.recommendations_table.setHorizontalHeaderLabels(
+            [
+                "Ticker",
+                "Confidence (%)",
+                "Risk Level",
+                "Suggested Action",
+                "Time Horizon",
+                "Reasoning",
+                "Execute",
+            ]
+        )
+        self.recommendations_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
         layout.addWidget(self.recommendations_table)
 
     def _setup_portfolio_panel(self):
@@ -173,8 +190,12 @@ class MainWindow(QMainWindow):
 
         self.portfolio_table = QTableWidget()
         self.portfolio_table.setColumnCount(5)
-        self.portfolio_table.setHorizontalHeaderLabels(["Ticker", "Quantity", "Avg. Cost", "Current Price", "Unrealized P/L"])
-        self.portfolio_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.portfolio_table.setHorizontalHeaderLabels(
+            ["Ticker", "Quantity", "Avg. Cost", "Current Price", "Unrealized P/L"]
+        )
+        self.portfolio_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
         layout.addWidget(self.portfolio_table)
 
         self.total_portfolio_value_label = QLabel("Total Portfolio Value: $0.00")
@@ -191,23 +212,31 @@ class MainWindow(QMainWindow):
 
         self.log_handler = QtTextEditHandler(self.log_display)
         self.log_handler.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
         self.log_handler.setFormatter(formatter)
         logging.getLogger().addHandler(self.log_handler)
-    
+
     def _save_credentials(self):
         key = self.key_input.text().strip()
         secret = self.secret_input.text().strip()
-        
+
         if not key or not secret:
-            QMessageBox.warning(self, "Missing Credentials", "Please enter both a Consumer Key and a Consumer Secret.")
+            QMessageBox.warning(
+                self,
+                "Missing Credentials",
+                "Please enter both a Consumer Key and a Consumer Secret.",
+            )
             return
 
         cred.set_consumer_credentials(key, secret)
-        QMessageBox.information(self, "Credentials Saved", "E*TRADE credentials have been saved to the secure store.")
+        QMessageBox.information(
+            self,
+            "Credentials Saved",
+            "E*TRADE credentials have been saved to the secure store.",
+        )
         logger.info("Credentials saved via GUI. Attempting to authenticate.")
         self._authenticate_etrade()
-        
+
     def _setup_timers(self):
         self.market_data_timer = QTimer(self)
         self.market_data_timer.setInterval(5000)
@@ -230,13 +259,26 @@ class MainWindow(QMainWindow):
         logger.info("Application initialized. Awaiting E*Trade API connection.")
         self._authenticate_etrade()
 
+    def _get_oauth_verifier_from_gui(self) -> str:
+        """
+        Pops up a dialog to ask the user for the OAuth verifier code.
+        """
+        dialog_title = "E*TRADE Authentication"
+        dialog_text = "Please enter the verification code from the E*TRADE webpage:"
+        verifier, ok = QInputDialog.getText(self, dialog_title, dialog_text)
+        if ok and verifier:
+            return verifier
+        return ""
+
     def _authenticate_etrade(self):
         if self.api_connection:
             return
 
         logger.info("Attempting E*Trade API authentication...")
         try:
-            self.api_connection = ETradeAPIConnection()
+            self.api_connection = ETradeAPIConnection(
+                get_verifier_callback=self._get_oauth_verifier_from_gui
+            )
             if self.api_connection.get_access_token():
                 logger.info("E*Trade API authenticated successfully.")
                 self.market_data = MarketData(self.api_connection)
@@ -244,24 +286,30 @@ class MainWindow(QMainWindow):
             else:
                 logger.warning("E*Trade API authentication failed or not completed.")
         except ETradeCredentialsMissing:
-            logger.warning("E*Trade credentials missing. Please enter them in the left panel.")
-            QMessageBox.warning(self, "Credentials Required",
-                                "E*TRADE credentials not found. Please enter your Consumer Key and Secret.")
+            logger.warning(
+                "E*Trade credentials missing. Please enter them in the left panel."
+            )
         except Exception as e:
             logger.error(f"Error during E*Trade API authentication: {e}")
 
     def _toggle_mode(self, index):
         selected_mode = self.mode_toggle.itemText(index)
         if selected_mode == "Live":
-            confirm = self._show_confirmation_dialog("Switch to Live Mode?",
-                                                     "Are you sure you want to switch to LIVE trading mode? Real money will be used for trades.")
+            confirm = self._show_confirmation_dialog(
+                "Switch to Live Mode?",
+                "Are you sure you want to switch to LIVE trading mode? Real money will be used for trades.",
+            )
             if not confirm:
                 self.mode_toggle.setCurrentText(self.current_mode)
                 return
             else:
-                logger.warning("Switched to LIVE trading mode. All confirmed trades will be real.")
+                logger.warning(
+                    "Switched to LIVE trading mode. All confirmed trades will be real."
+                )
         else:
-            logger.info("Switched to TEST (Simulation) mode. No real money will be used.")
+            logger.info(
+                "Switched to TEST (Simulation) mode. No real money will be used."
+            )
 
         self.current_mode = selected_mode
         self._update_ui_for_mode()
@@ -300,22 +348,38 @@ class MainWindow(QMainWindow):
                 if data:
                     row_position = self.ticker_table.rowCount()
                     self.ticker_table.insertRow(row_position)
-                    last_price = data.get('lastPrice', 'N/A')
-                    change_percent = data.get('changePct', 'N/A')
-                    volume = data.get('volume', 'N/A')
+                    last_price = data.get("lastPrice", "N/A")
+                    change_percent = data.get("changePct", "N/A")
+                    volume = data.get("volume", "N/A")
                     self.ticker_table.setItem(row_position, 0, QTableWidgetItem(ticker))
-                    self.ticker_table.setItem(row_position, 1, QTableWidgetItem(str(last_price)))
-                    self.ticker_table.setItem(row_position, 2, QTableWidgetItem(f"{change_percent}%"))
-                    self.ticker_table.setItem(row_position, 3, QTableWidgetItem(str(volume)))
+                    self.ticker_table.setItem(
+                        row_position, 1, QTableWidgetItem(str(last_price))
+                    )
+                    self.ticker_table.setItem(
+                        row_position, 2, QTableWidgetItem(f"{change_percent}%")
+                    )
+                    self.ticker_table.setItem(
+                        row_position, 3, QTableWidgetItem(str(volume))
+                    )
                 else:
-                    logger.warning(f"No market data received for {ticker} from E*Trade API.")
+                    logger.warning(
+                        f"No market data received for {ticker} from E*Trade API."
+                    )
             except Exception as e:
                 logger.error(f"Error fetching market data for {ticker}: {e}")
                 self.ticker_table.insertRow(self.ticker_table.rowCount())
-                self.ticker_table.setItem(self.ticker_table.rowCount() - 1, 0, QTableWidgetItem(ticker))
-                self.ticker_table.setItem(self.ticker_table.rowCount() - 1, 1, QTableWidgetItem("Error"))
-                self.ticker_table.setItem(self.ticker_table.rowCount() - 1, 2, QTableWidgetItem("Error"))
-                self.ticker_table.setItem(self.ticker_table.rowCount() - 1, 3, QTableWidgetItem("Error"))
+                self.ticker_table.setItem(
+                    self.ticker_table.rowCount() - 1, 0, QTableWidgetItem(ticker)
+                )
+                self.ticker_table.setItem(
+                    self.ticker_table.rowCount() - 1, 1, QTableWidgetItem("Error")
+                )
+                self.ticker_table.setItem(
+                    self.ticker_table.rowCount() - 1, 2, QTableWidgetItem("Error")
+                )
+                self.ticker_table.setItem(
+                    self.ticker_table.rowCount() - 1, 3, QTableWidgetItem("Error")
+                )
 
     def _run_ai_analysis(self):
         if not self.api_connection or not self.api_connection.is_authenticated():
@@ -326,46 +390,86 @@ class MainWindow(QMainWindow):
         self.recommendations_table.setRowCount(0)
 
         for ticker in self.tracked_tickers:
-            historical_data = self.market_data.get_historical_data(ticker, "1month", "daily")
+            historical_data = self.market_data.get_historical_data(
+                ticker, "1month", "daily"
+            )
             sentiment_data = self.market_data.get_news_sentiment(ticker)
             analysis_input = {
                 "ticker": ticker,
                 "real_time_quote": self.market_data.get_quote(ticker),
                 "historical_data": historical_data,
                 "sentiment_data": sentiment_data,
-                "user_risk_profile": self.risk_level
+                "user_risk_profile": self.risk_level,
             }
             try:
-                recommendation = self.mistral_agent.generate_recommendation(analysis_input)
+                recommendation = self.mistral_agent.generate_recommendation(
+                    analysis_input
+                )
                 self._display_recommendation(recommendation)
             except Exception as e:
                 logger.error(f"Error generating recommendation for {ticker}: {e}")
                 error_row = self.recommendations_table.rowCount()
                 self.recommendations_table.insertRow(error_row)
-                self.recommendations_table.setItem(error_row, 0, QTableWidgetItem(ticker))
-                self.recommendations_table.setItem(error_row, 1, QTableWidgetItem("N/A"))
-                self.recommendations_table.setItem(error_row, 2, QTableWidgetItem("N/A"))
-                self.recommendations_table.setItem(error_row, 3, QTableWidgetItem("ERROR"))
-                self.recommendations_table.setItem(error_row, 4, QTableWidgetItem("N/A"))
-                self.recommendations_table.setItem(error_row, 5, QTableWidgetItem(f"AI Error: {e}"))
-                self.recommendations_table.setItem(error_row, 6, QTableWidgetItem("N/A"))
+                self.recommendations_table.setItem(
+                    error_row, 0, QTableWidgetItem(ticker)
+                )
+                self.recommendations_table.setItem(
+                    error_row, 1, QTableWidgetItem("N/A")
+                )
+                self.recommendations_table.setItem(
+                    error_row, 2, QTableWidgetItem("N/A")
+                )
+                self.recommendations_table.setItem(
+                    error_row, 3, QTableWidgetItem("ERROR")
+                )
+                self.recommendations_table.setItem(
+                    error_row, 4, QTableWidgetItem("N/A")
+                )
+                self.recommendations_table.setItem(
+                    error_row, 5, QTableWidgetItem(f"AI Error: {e}")
+                )
+                self.recommendations_table.setItem(
+                    error_row, 6, QTableWidgetItem("N/A")
+                )
 
     def _display_recommendation(self, recommendation):
         if not recommendation:
             return
 
         if not self._check_risk_tolerance(recommendation):
-            logger.info(f"Recommendation for {recommendation['Ticker']} omitted due to risk tolerance.")
+            logger.info(
+                f"Recommendation for {recommendation['Ticker']} omitted due to risk tolerance."
+            )
             return
 
         row_position = self.recommendations_table.rowCount()
         self.recommendations_table.insertRow(row_position)
-        self.recommendations_table.setItem(row_position, 0, QTableWidgetItem(recommendation.get('Ticker', 'N/A')))
-        self.recommendations_table.setItem(row_position, 1, QTableWidgetItem(f"{recommendation.get('Confidence', 'N/A')}%"))
-        self.recommendations_table.setItem(row_position, 2, QTableWidgetItem(recommendation.get('Risk Level', 'N/A')))
-        self.recommendations_table.setItem(row_position, 3, QTableWidgetItem(recommendation.get('Suggested Action', 'N/A')))
-        self.recommendations_table.setItem(row_position, 4, QTableWidgetItem(recommendation.get('Expected Time Horizon', 'N/A')))
-        self.recommendations_table.setItem(row_position, 5, QTableWidgetItem(recommendation.get('Reasoning Summary', 'N/A')))
+        self.recommendations_table.setItem(
+            row_position, 0, QTableWidgetItem(recommendation.get("Ticker", "N/A"))
+        )
+        self.recommendations_table.setItem(
+            row_position,
+            1,
+            QTableWidgetItem(f"{recommendation.get('Confidence', 'N/A')}%"),
+        )
+        self.recommendations_table.setItem(
+            row_position, 2, QTableWidgetItem(recommendation.get("Risk Level", "N/A"))
+        )
+        self.recommendations_table.setItem(
+            row_position,
+            3,
+            QTableWidgetItem(recommendation.get("Suggested Action", "N/A")),
+        )
+        self.recommendations_table.setItem(
+            row_position,
+            4,
+            QTableWidgetItem(recommendation.get("Expected Time Horizon", "N/A")),
+        )
+        self.recommendations_table.setItem(
+            row_position,
+            5,
+            QTableWidgetItem(recommendation.get("Reasoning Summary", "N/A")),
+        )
 
         execute_button = QPushButton("Execute")
         execute_button.clicked.connect(lambda: self._execute_trade(recommendation))
@@ -373,7 +477,7 @@ class MainWindow(QMainWindow):
         logger.info(f"Displayed recommendation for {recommendation.get('Ticker')}")
 
     def _check_risk_tolerance(self, recommendation):
-        rec_risk = recommendation.get('Risk Level', 'Medium').lower()
+        rec_risk = recommendation.get("Risk Level", "Medium").lower()
         user_risk = self.risk_level.lower()
         risk_map = {"low": 1, "medium": 2, "high": 3}
         if risk_map.get(rec_risk, 2) > risk_map.get(user_risk, 2):
@@ -381,147 +485,165 @@ class MainWindow(QMainWindow):
         return True
 
     def _execute_trade(self, recommendation):
-        ticker = recommendation.get('Ticker')
-        action = recommendation.get('Suggested Action')
+        ticker = recommendation.get("Ticker")
+        action = recommendation.get("Suggested Action")
         quantity = 10
         order_type = "MARKET"
 
-        logger.info(f"Attempting to execute {action} order for {quantity} shares of {ticker}...")
+        logger.info(
+            f"Attempting to execute {action} order for {quantity} shares of {ticker}..."
+        )
 
         if self.current_mode == "Test":
             log_prefix = "SIMULATION – NO REAL MONEY USED."
             logger.info(f"{log_prefix} Executing simulated {action} for {ticker}.")
-            self.simulator.execute_simulated_trade(ticker, action, quantity, self.portfolio)
+            self.simulator.execute_simulated_trade(
+                ticker, action, quantity, self.portfolio
+            )
             self._update_portfolio_display()
-            self._show_information_dialog("Simulation Complete", f"{log_prefix} Simulated {action} of {quantity} {ticker} executed.")
+            self._show_information_dialog(
+                "Simulation Complete",
+                f"{log_prefix} Simulated {action} of {quantity} {ticker} executed.",
+            )
         elif self.current_mode == "Live":
-            confirm = self._show_confirmation_dialog("Confirm Live Trade",
-                                                    f"Are you sure you want to execute a LIVE {action} order for {quantity} shares of {ticker}?")
+            confirm = self._show_confirmation_dialog(
+                "Confirm Live Trade",
+                f"Are you sure you want to execute a LIVE {action} order for {quantity} shares of {ticker}?",
+            )
             if confirm:
-                logger.info(f"User confirmed LIVE {action} for {ticker}. Calling E*Trade API.")
+                logger.info(
+                    f"User confirmed LIVE {action} for {ticker}. Calling E*Trade API."
+                )
                 try:
                     trade_response = self.trading.place_order(
                         account_id=self.api_connection.account_id,
                         symbol=ticker,
                         action=action,
                         quantity=quantity,
-                        order_type=order_type
+                        order_type=order_type,
                     )
-                    if trade_response and trade_response.get('orderId'):
-                        logger.info(f"LIVE Trade executed successfully for {ticker}. Order ID: {trade_response['orderId']}")
-                        self._show_information_dialog("Live Trade Successful", f"LIVE {action} of {quantity} {ticker} placed. Order ID: {trade_response['orderId']}")
+                    if trade_response and trade_response.get("orderId"):
+                        logger.info(
+                            f"LIVE Trade executed successfully for {ticker}. Order ID: {trade_response['orderId']}"
+                        )
+                        self._show_information_dialog(
+                            "Live Trade Successful",
+                            f"LIVE {action} of {quantity} {ticker} placed. Order ID: {trade_response['orderId']}",
+                        )
                         self._update_portfolio_display()
                     else:
-                        logger.error(f"LIVE Trade failed for {ticker}. Response: {trade_response}")
-                        self._show_error_dialog("Live Trade Failed", f"Failed to place {action} order for {ticker}. Check logs for details.")
+                        logger.error(
+                            f"LIVE Trade failed for {ticker}. Response: {trade_response}"
+                        )
+                        self._show_error_dialog(
+                            "Live Trade Failed",
+                            f"Failed to place {action} order for {ticker}. Check logs for details.",
+                        )
                 except Exception as e:
                     logger.error(f"Error during LIVE trade execution for {ticker}: {e}")
-                    self._show_error_dialog("Live Trade Error", f"An error occurred during live trade for {ticker}: {e}")
+                    self._show_error_dialog(
+                        "Live Trade Error",
+                        f"An error occurred during live trade for {ticker}: {e}",
+                    )
             else:
                 logger.info(f"User cancelled LIVE {action} for {ticker}.")
         self._update_portfolio_display()
 
     def _update_portfolio_display(self):
-        """Refreshes the portfolio table for either authenticated or simulated data."""
         if not self.api_connection or not self.api_connection.is_authenticated():
             logger.warning(
                 "E*Trade API not authenticated. Displaying simulated portfolio."
             )
             current_holdings = self.portfolio.get_holdings()
+            self.total_portfolio_value_label.setText(
+                "Total Portfolio Value (Simulated): $0.00"
+            )
+        else:
+            current_holdings = {}
+            if self.current_mode == "Test":
+                current_holdings = self.portfolio.get_holdings()
+                logger.debug("Updating portfolio display from simulated holdings.")
+            elif self.current_mode == "Live":
+                try:
+                    live_portfolio = self.trading.get_portfolio(
+                        self.api_connection.account_id
+                    )
+                    current_holdings = {
+                        item["symbol"]: {
+                            "quantity": item["quantity"],
+                            "costBasis": item.get("costBasis", 0),
+                        }
+                        for item in live_portfolio
+                    }
+                    logger.debug(
+                        "Updating portfolio display from LIVE E*Trade holdings."
+                    )
+                except Exception as e:
+                    logger.error(f"Error fetching live portfolio from E*Trade: {e}")
+                    self._show_error_dialog(
+                        "Portfolio Error",
+                        "Could not fetch live portfolio from E*Trade.",
+                    )
 
-            self.portfolio_table.setRowCount(0)
             total_value = 0
+            self.portfolio_table.setRowCount(0)
             for ticker, data in current_holdings.items():
                 row_position = self.portfolio_table.rowCount()
                 self.portfolio_table.insertRow(row_position)
                 quantity = data.get("quantity", 0)
                 avg_cost = data.get("costBasis", 0)
+                current_price = "N/A"
+                unrealized_pl = "N/A"
+                quote_data = self.market_data.get_quote(ticker)
+                if quote_data and quote_data.get("lastPrice"):
+                    current_price = quote_data["lastPrice"]
+                    if (
+                        quantity > 0
+                        and isinstance(current_price, (int, float))
+                        and isinstance(avg_cost, (int, float))
+                    ):
+                        unrealized_pl = (current_price - avg_cost) * quantity
+                        total_value += current_price * quantity
+                else:
+                    logger.warning(
+                        f"Could not get current price for {ticker} to update portfolio P/L."
+                    )
                 self.portfolio_table.setItem(row_position, 0, QTableWidgetItem(ticker))
-                self.portfolio_table.setItem(row_position, 1, QTableWidgetItem(str(quantity)))
-                self.portfolio_table.setItem(row_position, 2, QTableWidgetItem(f"${avg_cost:.2f}"))
-                self.portfolio_table.setItem(row_position, 3, QTableWidgetItem("N/A"))
-                self.portfolio_table.setItem(row_position, 4, QTableWidgetItem("N/A"))
-                if isinstance(avg_cost, (int, float)):
-                    total_value += avg_cost * quantity
-
+                self.portfolio_table.setItem(
+                    row_position, 1, QTableWidgetItem(str(quantity))
+                )
+                self.portfolio_table.setItem(
+                    row_position, 2, QTableWidgetItem(f"${avg_cost:.2f}")
+                )
+                self.portfolio_table.setItem(
+                    row_position,
+                    3,
+                    QTableWidgetItem(
+                        f"${current_price:.2f}"
+                        if isinstance(current_price, (int, float))
+                        else str(current_price)
+                    ),
+                )
+                self.portfolio_table.setItem(
+                    row_position,
+                    4,
+                    QTableWidgetItem(
+                        f"${unrealized_pl:.2f}"
+                        if isinstance(unrealized_pl, (int, float))
+                        else str(unrealized_pl)
+                    ),
+                )
             self.total_portfolio_value_label.setText(
-                f"Total Portfolio Value (Simulated): ${total_value:.2f}"
+                f"Total Portfolio Value: ${total_value:.2f}"
             )
-            return
-
-        current_holdings = {}
-        if self.current_mode == "Test":
-            current_holdings = self.portfolio.get_holdings()
-            logger.debug("Updating portfolio display from simulated holdings.")
-        elif self.current_mode == "Live":
-            try:
-                live_portfolio = self.trading.get_portfolio(
-                    self.api_connection.account_id
-                )
-                current_holdings = {
-                    item["symbol"]: {
-                        "quantity": item["quantity"],
-                        "costBasis": item.get("costBasis", 0),
-                    }
-                    for item in live_portfolio
-                }
-                logger.debug(
-                    "Updating portfolio display from LIVE E*Trade holdings."
-                )
-            except Exception as e:
-                logger.error(f"Error fetching live portfolio from E*Trade: {e}")
-                self._show_error_dialog(
-                    "Portfolio Error", "Could not fetch live portfolio from E*Trade."
-                )
-
-        total_value = 0
-        self.portfolio_table.setRowCount(0)
-        for ticker, data in current_holdings.items():
-            row_position = self.portfolio_table.rowCount()
-            self.portfolio_table.insertRow(row_position)
-            quantity = data.get("quantity", 0)
-            avg_cost = data.get("costBasis", 0)
-            current_price = "N/A"
-            unrealized_pl = "N/A"
-            quote_data = self.market_data.get_quote(ticker)
-            if quote_data and quote_data.get("lastPrice"):
-                current_price = quote_data["lastPrice"]
-                if (
-                    quantity > 0
-                    and isinstance(current_price, (int, float))
-                    and isinstance(avg_cost, (int, float))
-                ):
-                    unrealized_pl = (current_price - avg_cost) * quantity
-                    total_value += current_price * quantity
-            else:
-                logger.warning(
-                    f"Could not get current price for {ticker} to update portfolio P/L."
-                )
-            self.portfolio_table.setItem(row_position, 0, QTableWidgetItem(ticker))
-            self.portfolio_table.setItem(row_position, 1, QTableWidgetItem(str(quantity)))
-            self.portfolio_table.setItem(
-                row_position, 2, QTableWidgetItem(f"${avg_cost:.2f}")
-            )
-            self.portfolio_table.setItem(
-                row_position,
-                3,
-                QTableWidgetItem(
-                    f"${current_price:.2f}" if isinstance(current_price, (int, float)) else str(current_price)
-                ),
-            )
-            self.portfolio_table.setItem(
-                row_position,
-                4,
-                QTableWidgetItem(
-                    f"${unrealized_pl:.2f}" if isinstance(unrealized_pl, (int, float)) else str(unrealized_pl)
-                ),
-            )
-        self.total_portfolio_value_label.setText(
-            f"Total Portfolio Value: ${total_value:.2f}"
-        )
 
     def _show_confirmation_dialog(self, title, message):
-        reply = QMessageBox.question(self, title, message, QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        reply = QMessageBox.question(
+            self,
+            title,
+            message,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+        )
         return reply == QMessageBox.StandardButton.Yes
 
     def _show_information_dialog(self, title, message):
@@ -529,13 +651,3 @@ class MainWindow(QMainWindow):
 
     def _show_error_dialog(self, title, message):
         QMessageBox.critical(self, title, message)
-
-class QtTextEditHandler(logging.Handler):
-    def __init__(self, text_edit):
-        super().__init__()
-        self.text_edit = text_edit
-        self.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-
-    def emit(self, record):
-        msg = self.format(record)
-        self.text_edit.append(msg)

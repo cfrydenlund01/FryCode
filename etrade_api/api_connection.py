@@ -2,7 +2,7 @@
 
 import webbrowser
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, Callable
 
 from requests_oauthlib import OAuth1Session
 
@@ -19,14 +19,15 @@ class ETradeAPIConnection:
     Manages OAuth authentication and session for the E*Trade API.
     """
 
-    def __init__(self):
+    def __init__(self, get_verifier_callback: Callable[[], str]):
         self.consumer_key, self.consumer_secret = credentials.get_consumer_credentials()
         self.account_id: Optional[str] = None
+        self.get_verifier_callback = get_verifier_callback
 
         self.oauth = None
         self.access_token = None
         self.access_token_secret = None
-        self.token_manager = TokenManager()
+        self.token_manager = TokenManager(sandbox=True)
 
         if not self.consumer_key or not self.consumer_secret:
             raise ETradeCredentialsMissing(
@@ -34,6 +35,9 @@ class ETradeAPIConnection:
             )
 
         self._load_tokens()
+
+        if not self.is_authenticated():
+            self.get_access_token()
 
     def _load_tokens(self):
         """Loads access tokens from the credential store if they exist."""
@@ -77,12 +81,10 @@ class ETradeAPIConnection:
         Executes the full OAuth 1.0a authentication flow, including opening a browser
         for user authorization.
         """
-        # Using sandbox URLs for development as per standard practice
         request_token_url = "https://apisb.etrade.com/oauth/request_token"
-        authorize_url = "https://apisb.etrade.com/oauth/authorize"
+        authorize_url_base = "https://us.etrade.com/e/t/etws/authorize"
         access_token_url = "https://apisb.etrade.com/oauth/access_token"
 
-        # Step 1: Get a Request Token
         self.oauth = OAuth1Session(
             self.consumer_key, client_secret=self.consumer_secret, callback_uri="oob"
         )
@@ -95,24 +97,22 @@ class ETradeAPIConnection:
             logger.error(f"Failed to get E*Trade Request Token: {e}")
             return False
 
-        # Step 2: Authorize the Request Token
-        authorization_url = self.oauth.authorization_url(authorize_url)
-
-        # Open the authorization URL in the user's default web browser
+        authorization_url = (
+            f"{authorize_url_base}?key={self.consumer_key}&token={resource_owner_key}"
+        )
         webbrowser.open_new_tab(authorization_url)
         logger.info(
             f"Please open this URL in your browser to authorize E*Trade: {authorization_url}"
         )
 
-        # Prompt the user to enter the verification code from the browser
-        print("\n--- E*Trade API Authentication ---")
-        print("A browser window has been opened for you to authorize this application.")
-        print(
-            "Please copy the verification code from the browser page and paste it below."
-        )
-        oauth_verifier = input("Enter the verification code: ").strip()
+        oauth_verifier = self.get_verifier_callback()
 
-        # Step 3: Get the Access Token
+        if not oauth_verifier:
+            logger.warning(
+                "User cancelled E*Trade authentication or did not provide a verifier."
+            )
+            return False
+
         try:
             self.oauth = OAuth1Session(
                 self.consumer_key,
@@ -125,10 +125,7 @@ class ETradeAPIConnection:
             self.access_token = access_token_response.get("oauth_token")
             self.access_token_secret = access_token_response.get("oauth_token_secret")
             logger.info("E*Trade Access Token obtained successfully.")
-
-            # Fetch and set the user's default account ID for trading
             self._fetch_and_set_account_id()
-
             self._save_tokens()
             return True
         except Exception as e:
@@ -136,22 +133,16 @@ class ETradeAPIConnection:
             return False
 
     def _fetch_and_set_account_id(self):
-        """
-        Fetches the user's primary account ID from E*Trade and sets it.
-        This is a required step for placing orders.
-        """
         if not self.is_authenticated():
             logger.warning("Not authenticated to fetch account ID.")
             return
 
         try:
-            # E*Trade has a dedicated endpoint for listing accounts
             accounts_url = "https://apisb.etrade.com/v1/accounts/list.json"
             response = self.oauth.get(accounts_url)
             response.raise_for_status()
             accounts_data = response.json()
 
-            # The API response structure can be complex. We need to navigate it carefully.
             accounts_list = (
                 accounts_data.get("AccountListResponse", {})
                 .get("Accounts", {})
@@ -159,7 +150,6 @@ class ETradeAPIConnection:
             )
 
             if accounts_list:
-                # Use the first account found as the default for this application
                 self.account_id = accounts_list[0].get("accountId")
                 logger.info(f"Fetched E*Trade default Account ID: {self.account_id}")
             else:
@@ -168,9 +158,6 @@ class ETradeAPIConnection:
             logger.error(f"Error fetching E*Trade Account ID: {e}")
 
     def is_authenticated(self):
-        """
-        Checks if the OAuth session has an access token, indicating authentication.
-        """
         return (
             self.oauth is not None
             and self.access_token is not None
@@ -178,20 +165,17 @@ class ETradeAPIConnection:
         )
 
     def get_session(self):
-        """
-        Returns the authenticated OAuth1Session object.
-        """
         if not self.is_authenticated():
             logger.warning(
                 "E*Trade API not authenticated. Attempting to re-authenticate."
             )
             if not self.get_access_token():
-                raise
+                raise Exception("E*Trade API not authenticated.")
         else:
             try:
                 self.token_manager.ensure_active()
             except ETradeCredentialsMissing:
                 logger.warning("E*Trade token expired. Re-authenticating.")
                 if not self.get_access_token():
-                    raise
+                    raise Exception("E*Trade API not authenticated.")
         return self.oauth

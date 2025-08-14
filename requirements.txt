@@ -12,6 +12,7 @@ tzdata>=2024.1
 # AI backends
 transformers
 accelerate
+huggingface_hub[hf_xet]
 # torch is intentionally not pinned; install a matching wheel separately
 # llama-cpp-python  # optional: install separately if using llama.cpp (requires C++ build tools)
 
@@ -23,4 +24,3 @@ black
 ruff
 mypy
 pre-commit
-

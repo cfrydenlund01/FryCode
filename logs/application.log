@@ -1,0 +1,288 @@
+2025-08-13 12:43:06,889 - root - INFO - Logging setup complete.
+2025-08-13 12:43:06,947 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 12:43:06,947 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 12:43:07,034 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 12:43:07,034 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 12:43:07,034 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 12:43:07,034 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 12:43:07,034 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 12:43:07,444 - etrade_api.api_connection - INFO - No saved E*Trade access tokens found.
+2025-08-13 12:43:07,680 - etrade_api.api_connection - INFO - E*Trade Request Token obtained.
+2025-08-13 12:43:07,925 - etrade_api.api_connection - INFO - Please open this URL in your browser to authorize E*Trade: https://apisb.etrade.com/oauth/authorize?oauth_token=S0t6m%2BjXzj0YsuZDeM3i9CgWOj4DtZ4eVRAfU%2Byeago%3D
+2025-08-13 12:55:04,684 - root - INFO - Logging setup complete.
+2025-08-13 12:55:04,713 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 12:55:04,714 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 12:55:04,754 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 12:55:04,754 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 12:55:04,754 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 12:55:04,754 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 12:55:04,754 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 12:55:04,797 - etrade_api.api_connection - INFO - No saved E*Trade access tokens found.
+2025-08-13 12:55:05,020 - etrade_api.api_connection - INFO - E*Trade Request Token obtained.
+2025-08-13 12:55:05,242 - etrade_api.api_connection - INFO - Please open this URL in your browser to authorize E*Trade: https://apisb.etrade.com/oauth/authorize?oauth_token=N2mrrl2T2STxOvveUlre6O7pgoZD98w7cI5%2BU3iLY7c%3D
+2025-08-13 13:48:46,764 - root - INFO - Logging setup complete.
+2025-08-13 13:48:46,796 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 13:48:46,796 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 13:48:46,828 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 13:48:46,828 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 13:48:46,828 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:48:46,828 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 13:48:46,828 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 13:48:46,910 - etrade_api.api_connection - INFO - No saved E*Trade access tokens found.
+2025-08-13 13:48:47,143 - etrade_api.api_connection - INFO - E*Trade Request Token obtained.
+2025-08-13 13:48:47,145 - gui.main_window - ERROR - Error during E*Trade API authentication: name 'cite' is not defined
+2025-08-13 13:48:51,823 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:48:56,824 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:48:56,824 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:49:01,822 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:49:06,828 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:49:06,830 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:49:11,819 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:49:16,818 - gui.main_window - WARNING - E*Trade API not authenticated. Skipping AI analysis.
+2025-08-13 13:49:16,818 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:49:16,818 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:13,971 - root - INFO - Logging setup complete.
+2025-08-13 13:50:14,000 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 13:50:14,000 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 13:50:14,035 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 13:50:14,035 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 13:50:14,035 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:50:14,035 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 13:50:14,035 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 13:50:14,107 - etrade_api.api_connection - INFO - No saved E*Trade access tokens found.
+2025-08-13 13:50:14,336 - etrade_api.api_connection - INFO - E*Trade Request Token obtained.
+2025-08-13 13:50:14,336 - gui.main_window - ERROR - Error during E*Trade API authentication: name 'cite' is not defined
+2025-08-13 13:50:19,049 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:24,034 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:50:24,051 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:29,055 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:34,043 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:50:34,059 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:34,411 - gui.main_window - INFO - Credentials saved via GUI. Attempting to authenticate.
+2025-08-13 13:50:39,057 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:44,062 - gui.main_window - WARNING - E*Trade API not authenticated. Skipping AI analysis.
+2025-08-13 13:50:44,062 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:50:44,062 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:49,057 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:54,063 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:50:54,063 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:50:59,060 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:04,062 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:51:04,062 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:09,063 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:14,051 - gui.main_window - WARNING - E*Trade API not authenticated. Skipping AI analysis.
+2025-08-13 13:51:14,051 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:51:14,051 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:19,061 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:20,591 - gui.main_window - INFO - Added 'IRM' to tracked tickers.
+2025-08-13 13:51:20,591 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:24,056 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:51:24,056 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:29,057 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:34,052 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:51:34,052 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:39,061 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:44,054 - gui.main_window - WARNING - E*Trade API not authenticated. Skipping AI analysis.
+2025-08-13 13:51:44,054 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:51:44,054 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:49,061 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:54,055 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:51:54,055 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:51:58,861 - gui.main_window - INFO - Credentials saved via GUI. Attempting to authenticate.
+2025-08-13 13:51:59,051 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:52:04,051 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:52:04,051 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:52:08,909 - user_data.user_config - INFO - User configuration saved successfully.
+2025-08-13 13:52:08,909 - user_data.user_config - INFO - Risk profile set to: Low
+2025-08-13 13:52:08,909 - gui.main_window - INFO - Risk profile updated to: Low
+2025-08-13 13:52:08,909 - gui.main_window - WARNING - E*Trade API not authenticated. Skipping AI analysis.
+2025-08-13 13:52:09,052 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:52:14,060 - gui.main_window - WARNING - E*Trade API not authenticated. Skipping AI analysis.
+2025-08-13 13:52:14,060 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:52:14,060 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 13:56:15,579 - root - INFO - Logging setup complete.
+2025-08-13 13:56:15,626 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 13:56:15,626 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 13:56:15,658 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 13:56:15,658 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 13:56:15,658 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 13:56:15,658 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 13:56:15,658 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 13:56:15,721 - etrade_api.api_connection - INFO - No saved E*Trade access tokens found.
+2025-08-13 13:56:15,928 - etrade_api.api_connection - INFO - E*Trade Request Token obtained.
+2025-08-13 13:56:16,166 - etrade_api.api_connection - INFO - Please open this URL in your browser to authorize E*Trade: https://us.etrade.com/e/t/etws/authorize?key=4d005722172cddf5e6eb9883def33a19&token=aodsla3YwhqMJuQkudcQUhU9oTII2HqQ4Y78FwPSvWE=
+2025-08-13 14:04:34,513 - root - INFO - Logging setup complete.
+2025-08-13 14:04:34,545 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 14:04:34,545 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:08:37,520 - root - INFO - Logging setup complete.
+2025-08-13 14:08:37,552 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 14:08:37,552 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:08:37,583 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:08:37,583 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 14:08:37,583 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 14:08:37,583 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 14:08:37,583 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 14:08:37,656 - etrade_api.api_connection - INFO - No saved E*Trade access tokens found.
+2025-08-13 14:08:37,854 - etrade_api.api_connection - INFO - E*Trade Request Token obtained.
+2025-08-13 14:08:38,093 - etrade_api.api_connection - INFO - Please open this URL in your browser to authorize E*Trade: https://us.etrade.com/e/t/etws/authorize?key=4d005722172cddf5e6eb9883def33a19&token=JuBgIN2DiFddb2YsMxIXe6UxXt8n/zhIB4kpXuuRUAA=
+2025-08-13 14:08:42,576 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 14:08:47,573 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 14:08:47,573 - gui.main_window - WARNING - E*Trade API not authenticated. Cannot fetch market data.
+2025-08-13 14:08:52,209 - etrade_api.api_connection - INFO - E*Trade Access Token obtained successfully.
+2025-08-13 14:08:52,318 - etrade_api.api_connection - INFO - Fetched E*Trade default Account ID: 823145980
+2025-08-13 14:08:52,361 - etrade_api.api_connection - INFO - E*Trade access tokens saved to credential store.
+2025-08-13 14:08:52,361 - etrade_api.api_connection - INFO - Using existing E*Trade access token.
+2025-08-13 14:08:52,361 - gui.main_window - INFO - E*Trade API authenticated successfully.
+2025-08-13 14:09:07,594 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:09:18,983 - gui.main_window - INFO - Credentials saved via GUI. Attempting to authenticate.
+2025-08-13 14:09:30,004 - gui.main_window - INFO - Added 'IRM' to tracked tickers.
+2025-08-13 14:09:37,603 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:09:37,682 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:09:37,682 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:09:37,762 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:09:37,762 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:09:50,591 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce2fe-6bbc994405f35c580a90cecb;9db09aba-4aab-43f7-98d3-4e92ad71c1a4)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:09:50,591 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:10:07,612 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:10:07,676 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:10:07,676 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:10:07,740 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:10:07,740 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:10:07,963 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce30f-41d09dd203c380766d42ee47;dccaf887-450a-4ad0-bb25-010486f6bbc2)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:10:07,963 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:10:37,604 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:10:37,668 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:10:37,668 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:10:37,731 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:10:37,731 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:10:37,953 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce32d-69ad577c556969d56dc051e3;bb15f249-9f98-43bf-bef1-6a821596ef69)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:10:37,953 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:11:07,613 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:11:07,677 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:11:07,681 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:11:07,739 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:11:07,739 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:11:07,954 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce34b-1929f6915019e75c2a9f30f7;02e76f34-624b-4d87-9980-64fbdad47dd4)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:11:07,970 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:11:37,609 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:11:37,673 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:11:37,673 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:11:37,736 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:11:37,736 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:11:37,958 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce369-57f75ca733c6b80104f0a332;0176e565-f406-4a3d-ad83-3f88c0f8b0ce)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:11:37,958 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:12:07,608 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:12:07,676 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:12:07,676 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:12:07,742 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:12:07,742 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:12:07,959 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce387-068d32f81509503121669f67;abe7e165-4ddb-4892-8889-6cc4d8705761)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:12:07,959 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:12:37,607 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:12:37,671 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:12:37,671 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:12:37,734 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:12:37,734 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:12:37,970 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce3a5-3b5e875c4d6b506572634d1c;41ae1a03-5824-4ab2-8397-3f8308ce3255)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:12:37,971 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:13:07,611 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:13:07,678 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:13:07,679 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:13:07,740 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:13:07,740 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:13:07,962 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce3c3-136c6df5683a426d21fdefa3;732ec8b1-0515-427c-a4d1-1f248150d296)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:13:07,962 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:13:37,608 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:13:37,683 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:13:37,684 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:13:37,754 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:13:37,754 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:13:37,981 - ai.mistral_agent - ERROR - Failed to load model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-689ce3e2-7c4328392f39d5762034636f;e260d12b-0165-4fde-b40f-6397d9315b45)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-13 14:13:37,982 - gui.main_window - ERROR - Error generating recommendation for IRM: 'Ticker'
+2025-08-13 14:36:57,140 - root - INFO - Logging setup complete.
+2025-08-13 14:36:57,174 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 14:36:57,174 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:36:57,221 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:36:57,221 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 14:36:57,221 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 14:36:57,221 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 14:36:57,221 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 14:36:57,288 - etrade_api.api_connection - INFO - E*Trade access tokens loaded from credential store.
+2025-08-13 14:36:57,292 - etrade_api.api_connection - INFO - Using existing E*Trade access token.
+2025-08-13 14:36:57,292 - etrade_api.api_connection - INFO - Using existing E*Trade access token.
+2025-08-13 14:36:57,292 - gui.main_window - INFO - E*Trade API authenticated successfully.
+2025-08-13 14:37:16,016 - gui.main_window - INFO - Credentials saved via GUI. Attempting to authenticate.
+2025-08-13 14:37:27,230 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:37:27,438 - gui.main_window - INFO - Added 'IRM' to tracked tickers.
+2025-08-13 14:37:57,221 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:37:57,285 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/history/IRM.json: 404 Client Error: 404 for url: https://apisb.etrade.com/v1/market/history/IRM.json?interval=1month&period=daily
+2025-08-13 14:37:57,285 - etrade_api.market_data - WARNING - No historical data received for IRM.
+2025-08-13 14:37:57,349 - etrade_api.market_data - ERROR - E*Trade API Market Data Error for market/news.json: 401 Client Error: 401 for url: https://apisb.etrade.com/v1/market/news.json?symbols=IRM
+2025-08-13 14:37:57,349 - etrade_api.market_data - WARNING - No specific sentiment data (beyond headlines) for IRM from E*Trade news API.
+2025-08-13 14:38:01,693 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-13 14:38:04,517 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-13 14:38:04,533 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-13 14:38:04,533 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-13 14:43:26,195 - root - INFO - Logging setup complete.
+2025-08-13 14:43:26,227 - user_data.user_config - INFO - User configuration loaded successfully.
+2025-08-13 14:43:26,227 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:43:26,259 - user_data.portfolio - INFO - Portfolio loaded successfully from file.
+2025-08-13 14:43:26,259 - user_data.portfolio - INFO - Portfolio reloaded from file.
+2025-08-13 14:43:26,259 - gui.main_window - WARNING - E*Trade API not authenticated. Displaying simulated portfolio.
+2025-08-13 14:43:26,259 - gui.main_window - INFO - Application initialized. Awaiting E*Trade API connection.
+2025-08-13 14:43:26,259 - gui.main_window - INFO - Attempting E*Trade API authentication...
+2025-08-13 14:43:26,332 - etrade_api.api_connection - INFO - E*Trade access tokens loaded from credential store.
+2025-08-13 14:43:26,332 - etrade_api.api_connection - INFO - Using existing E*Trade access token.
+2025-08-13 14:43:26,334 - etrade_api.api_connection - INFO - Using existing E*Trade access token.
+2025-08-13 14:43:26,334 - gui.main_window - INFO - E*Trade API authenticated successfully.
+2025-08-13 14:43:51,461 - gui.main_window - INFO - Credentials saved via GUI. Attempting to authenticate.
+2025-08-13 14:43:56,250 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:43:57,530 - gui.main_window - INFO - Added 'IRM' to tracked tickers.
+2025-08-13 14:44:26,253 - gui.main_window - INFO - Running AI analysis for stock recommendations...
+2025-08-13 14:44:26,253 - etrade_api.market_data - WARNING - Historical data endpoint may be non-functional in the E*Trade sandbox. Returning no data for IRM.
+2025-08-13 14:44:26,253 - etrade_api.market_data - WARNING - News/sentiment data endpoint may be non-functional in the E*Trade sandbox. Returning no data for IRM.
