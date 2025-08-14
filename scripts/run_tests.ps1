@@ -1,2 +1,12 @@
+param(
+    [switch]$Verbose,
+    [switch]$v
+)
+
 .\.venv\Scripts\Activate.ps1
-pytest -q
+
+if ($Verbose -or $v) {
+    pytest -vv
+} else {
+    pytest -q
+}

@@ -19,10 +19,12 @@ class ETradeAPIConnection:
     Manages OAuth authentication and session for the E*Trade API.
     """
 
-    def __init__(self, get_verifier_callback: Callable[[], str]):
+    def __init__(self, get_verifier_callback: Optional[Callable[[], str]] = None):
         self.consumer_key, self.consumer_secret = credentials.get_consumer_credentials()
         self.account_id: Optional[str] = None
-        self.get_verifier_callback = get_verifier_callback
+        self.get_verifier_callback = (
+            get_verifier_callback or (lambda: input("Enter verifier: "))
+        )
 
         self.oauth = None
         self.access_token = None
